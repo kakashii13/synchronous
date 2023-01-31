@@ -6,6 +6,9 @@ export const theme = extendTheme({
       "html, body, root": {
         h: "100vh",
       },
+      p: {
+        marginTop: "0 !important",
+      },
     },
   },
 });
