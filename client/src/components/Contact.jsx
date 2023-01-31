@@ -1,10 +1,10 @@
 import { Avatar, Heading, HStack, Text, VStack } from "@chakra-ui/react";
 import { useSynchronousContext } from "../context/Context";
 
-export const Contact = ({ username, profileImg, lastMessage, id }) => {
+export const Contact = ({ user }) => {
   const { selectUser } = useSynchronousContext();
   const handleSelect = () => {
-    selectUser(id);
+    selectUser(user.id);
   };
   return (
     <HStack
@@ -23,9 +23,9 @@ export const Contact = ({ username, profileImg, lastMessage, id }) => {
       <Avatar size="md" />
       <VStack maxW="300px" w="100%" justifyContent="start">
         <Heading fontSize="17px" w="100%">
-          {username}
+          {user.username}
         </Heading>
-        <Text
+        {/* <Text
           overflow="hidden"
           whiteSpace="nowrap"
           textOverflow="ellipsis"
@@ -35,7 +35,7 @@ export const Contact = ({ username, profileImg, lastMessage, id }) => {
           fontSize="14px"
         >
           {lastMessage}
-        </Text>
+        </Text> */}
       </VStack>
     </HStack>
   );

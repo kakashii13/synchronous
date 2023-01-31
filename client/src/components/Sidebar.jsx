@@ -8,14 +8,8 @@ export const Sidebar = () => {
     <VStack alignItems="start">
       <Input maxW="90%" placeholder="Search or start new chat" />
       <List>
-        {users.map(({ username, profileImg, lastMessage, id }) => (
-          <Contact
-            username={username}
-            profileImg={profileImg}
-            lastMessage={lastMessage}
-            id={id}
-            key={id}
-          />
+        {users.map((user) => (
+          <Contact user={user} key={user.id} />
         ))}
       </List>
     </VStack>
