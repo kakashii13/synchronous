@@ -9,7 +9,7 @@ export const Contact = ({ user }) => {
   return (
     <HStack
       alignItems="center"
-      w="100%"
+      maxW="400px"
       borderBottom="0.1px solid"
       borderColor="whiteAlpha.100"
       p="10px"

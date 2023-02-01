@@ -14,7 +14,13 @@ const UserSchema = new Schema({
     unique: true,
   },
   hashPassword: String,
-  isAdmin: Boolean,
+  contacts: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+  ],
   chats: [
     {
       type: Schema.Types.ObjectId,

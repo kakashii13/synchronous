@@ -11,3 +11,12 @@ export const getAll = async () => {
     console.log(error);
   }
 };
+
+export const getOne = async (id) => {
+  try {
+    const { data } = await axios.get(`${baseUrl}/api/users/${id}`);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};

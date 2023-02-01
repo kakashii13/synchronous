@@ -1,30 +1,47 @@
 import { useContext, useState, useEffect } from "react";
 import { createContext } from "react";
 import { getAllChats } from "../service/chats";
-import { getAll } from "../service/users";
+import { getAll, getOne } from "../service/users";
 
 const SynchronousContext = createContext();
 export const useSynchronousContext = () => useContext(SynchronousContext);
 
 export const SynchronousContextProvider = ({ children }) => {
-  const [users, setUsers] = useState([]);
+  const [user, setUser] = useState({});
+  const [userContacts, setUserContacts] = useState([]);
   const [chats, setChats] = useState([]);
+  const [chatSelected, setChatSelected] = useState([]);
   const [userSelected, setUserSelected] = useState(null);
 
+  // get all users
+  // useEffect(() => {
+  //   const getUsers = async () => {
+  //     const users = await getAll();
+  //     console.log(users);
+  //     setUsers(users);
+  //   };
+  //   getUsers();
+  //   return () => {};
+  // }, []);
+
   useEffect(() => {
-    const getUsers = async () => {
-      const users = await getAll();
-      console.log(users);
-      setUsers(users);
+    const getUser = async () => {
+      //  receives a id from token
+      const user = await getOne("63d7f943c5111a4cfe4b7190"); // hardcode id from superroot
+      console.log("User:", user);
+
+      // add user for userState
+      setUser(user);
+      setUserContacts(user.contacts);
     };
-    getUsers();
+    getUser();
     return () => {};
   }, []);
 
   useEffect(() => {
     const getChats = async () => {
       const chats = await getAllChats();
-      console.log(chats);
+      console.log("Chats:", chats);
       setChats(chats);
     };
     getChats();
@@ -32,14 +49,28 @@ export const SynchronousContextProvider = ({ children }) => {
   }, []);
 
   const selectUser = (id) => {
-    const user = users.filter((u) => u.id === id);
-    console.log(user[0]);
-    setUserSelected(user[0]);
+    // filter by idUserContact
+    const userFiltered = userContacts.filter((u) => u.id === id);
+    console.log("User selected", userFiltered[0]);
+    setUserSelected(userFiltered[0]);
+
+    // filter chat by idUserContact and idUser
+    const chat = chats.filter((c) =>
+      [id, user.id].every((el) => c.participants.includes(el))
+    );
+    setChatSelected(chat);
   };
 
   return (
     <SynchronousContext.Provider
-      value={{ users, userSelected, selectUser, chats }}
+      value={{
+        userContacts,
+        userSelected,
+        selectUser,
+        chats,
+        chatSelected,
+        user,
+      }}
     >
       {children}
     </SynchronousContext.Provider>
